@@ -93,7 +93,10 @@ int main() {
         {635, 138},
         {635, 167},
         {635, 196},
-        {635, 225}
+        {635, 225},
+        {750,210},
+        {740, 110},
+        {910, 210}
     };
     vector<vector<int>> trilha_vermelho =
     {
@@ -152,7 +155,10 @@ int main() {
         {871, 289},
         {824, 289},
         {777, 289},
-        {730, 289}
+        {730, 289},
+        {760,390},
+        {770, 550},
+        {960, 390}
     };
     vector<vector<int>> trilha_verde =
     {
@@ -211,7 +217,10 @@ int main() {
         {635, 486},
         {635, 443},
         {635, 402},
-        {635, 365}
+        {635, 365},
+        {520,390},
+        {510, 550},
+        {320, 390}
     };
     vector<vector<int>> trilha_azul =
     {
@@ -270,7 +279,10 @@ int main() {
         {400, 289},
         {447, 289},
         {494, 289},
-        {542, 289}
+        {542, 289},
+        {530,210},
+        {540, 110},
+        {380, 210}
     };
     vector<int> dados;
     int dado;
@@ -284,23 +296,25 @@ int main() {
 
     ALLEGRO_DISPLAY* display = al_create_display(1280, 720);
     al_set_window_position(display, 0, 0);
-    al_set_window_title(display, "Luther");
+    al_set_window_title(display, "Lutherum");
 
     ALLEGRO_FONT* font = al_load_font("font.ttf", 10, 0);
+    ALLEGRO_FONT* fontM = al_load_font("font.ttf", 30, 0);
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0);
 
     ALLEGRO_BITMAP* sprite = al_load_bitmap("tabuleiro.png");
     ALLEGRO_BITMAP* ponto = al_load_bitmap("ponto.png");
-    ALLEGRO_BITMAP* pontoam = al_load_bitmap("pontoam.png");
-    ALLEGRO_BITMAP* pontoaz = al_load_bitmap("pontoaz.png");
-    ALLEGRO_BITMAP* pontovd = al_load_bitmap("pontovd.png");
-    ALLEGRO_BITMAP* pontovm = al_load_bitmap("pontovm.png");
+    ALLEGRO_BITMAP* pontoam = al_load_bitmap("ouros.png");
+    ALLEGRO_BITMAP* pontoaz = al_load_bitmap("espadas.png");
+    ALLEGRO_BITMAP* pontovd = al_load_bitmap("paus.png");
+    ALLEGRO_BITMAP* pontovm = al_load_bitmap("copas.png");
     ALLEGRO_BITMAP* dado1 = al_load_bitmap("dado1.png");
     ALLEGRO_BITMAP* dado2 = al_load_bitmap("dado2.png");
     ALLEGRO_BITMAP* dado3 = al_load_bitmap("dado3.png");
     ALLEGRO_BITMAP* dado4 = al_load_bitmap("dado4.png");
     ALLEGRO_BITMAP* dado5 = al_load_bitmap("dado5.png");
     ALLEGRO_BITMAP* dado6 = al_load_bitmap("dado6.png");
+    //ALLEGRO_BITMAP* skye = al_load_bitmap("sky.png");
 
     ALLEGRO_EVENT_QUEUE* event_queue = al_create_event_queue();
     al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -318,15 +332,23 @@ int main() {
     int numbers1 = 90;
     int numbers2 = 90;
     int numbers3 = 90;
+    int numbers4 = 1;
+    int sky = 0;
     bool next = true;
     bool retafinal = false;
+    bool finded = false;
     int objectivedado = 0;
+    int coefam;
+    int coefaz;
+    int coefvd;
+    int coefvm;
+    float coef;
     vector <int> dadosaux;
     vector<vector<int>> players = {
-        {0},
-        {0},
-        {0},
-        {0}
+        {56,57,58},
+        {56,57,58},
+        {56,57,58},
+        {56,57,58}
     };
     int turnos = 0;
 
@@ -339,6 +361,7 @@ int main() {
 
         //al_clear_to_color(al_map_rgb(255, 255, 255));
         //al_draw_text(font, al_map_rgb(0, 0, 0), 5, 5, 0, "1" + 1);
+        //al_draw_scaled_bitmap(skye, sky * 1280, 0, 1280, 720, 0, 0, 1280, 720, 0);
         al_draw_bitmap(sprite, 0, 0, 0);
         if (numbers1 < 90) {
             numbers1++;
@@ -349,101 +372,129 @@ int main() {
         if (numbers3 < 90) {
             numbers3++;
         }
+        if (sky == 50) {
+            numbers4 = -1;
+        }
+        if (sky == 0) {
+            numbers4 = 1;
+        }
+        sky = sky + numbers4;
+        
         if (dadosaux.size() > 1) {
             al_draw_text(font, al_map_rgb(255, 255, 255), 100, 80, 0, "Selecione o Dado:");
             for (int k = 0; k < dadosaux.size(); k++) {
                 if (dadosaux[k] == 1) {
-                    al_draw_scaled_bitmap(dado1, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 1);
+                    al_draw_scaled_bitmap(dado1, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 2) {
-                    al_draw_scaled_bitmap(dado2, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 1);
+                    al_draw_scaled_bitmap(dado2, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 3) {
-                    al_draw_scaled_bitmap(dado3, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 1);
+                    al_draw_scaled_bitmap(dado3, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 4) {
-                    al_draw_scaled_bitmap(dado4, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 1);
+                    al_draw_scaled_bitmap(dado4, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 5) {
-                    al_draw_scaled_bitmap(dado5, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 1);
+                    al_draw_scaled_bitmap(dado5, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 6) {
-                    al_draw_scaled_bitmap(dado6, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 1);
+                    al_draw_scaled_bitmap(dado6, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
                 }
             }
         }
         if (dados.size() > 0) {
             if (dados[0] == 1) {
-                al_draw_scaled_bitmap(dado1, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado1, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
             }
             if (dados[0] == 2) {
-                al_draw_scaled_bitmap(dado2, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado2, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
             }
             if (dados[0] == 3) {
-                al_draw_scaled_bitmap(dado3, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado3, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
             }
             if (dados[0] == 4) {
-                al_draw_scaled_bitmap(dado4, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado4, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
             }
             if (dados[0] == 5) {
-                al_draw_scaled_bitmap(dado5, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado5, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
             }
             if (dados[0] == 6) {
-                al_draw_scaled_bitmap(dado6, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado6, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
             }
 
         }
         if (dados.size() > 1) {
             if (dados[1] == 1) {
-                al_draw_scaled_bitmap(dado1, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado1, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 2);
             }
             if (dados[1] == 2) {
-                al_draw_scaled_bitmap(dado2, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado2, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 2);
             }
             if (dados[1] == 3) {
-                al_draw_scaled_bitmap(dado3, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado3, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 2);
             }
             if (dados[1] == 4) {
-                al_draw_scaled_bitmap(dado4, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado4, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 2);
             }
             if (dados[1] == 5) {
-                al_draw_scaled_bitmap(dado5, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado5, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 2);
             }
             if (dados[1] == 6) {
-                al_draw_scaled_bitmap(dado6, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado6, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 2);
             }
         }
         if (dados.size() > 2) {
             if (dados[2] == 1) {
-                al_draw_scaled_bitmap(dado1, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado1, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 2);
             }
             if (dados[2] == 2) {
-                al_draw_scaled_bitmap(dado2, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado2, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 2);
             }
             if (dados[2] == 3) {
-                al_draw_scaled_bitmap(dado3, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado3, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 2);
             }
             if (dados[2] == 4) {
-                al_draw_scaled_bitmap(dado4, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado4, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 2);
             }
             if (dados[2] == 5) {
-                al_draw_scaled_bitmap(dado5, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado5, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 2);
             }
             if (dados[2] == 6) {
-                al_draw_scaled_bitmap(dado6, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 1);
+                al_draw_scaled_bitmap(dado6, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 2);
             }
         }
 
-
-
-        if (players[turnos][0] == 56) {
-            players[turnos][0] = 0;
+        coef = 0.03;
+        coefam = (trilha_amarelo[players[0][0]][1] >= 290) ? 60 + coef * (trilha_amarelo[players[0][0]][1] - 290) : 60 - coef * (290 - trilha_amarelo[players[0][0]][1]);
+        coefaz = (trilha_azul[players[3][0]][1] >= 290) ? 60 + coef * (trilha_azul[players[3][0]][1] - 290) : 60 - coef * (290 - trilha_azul[players[3][0]][1]);
+        coefvd = (trilha_verde[players[2][0]][1] >= 290) ? 60 + coef * (trilha_verde[players[2][0]][1] - 290) : 60 - coef * (290 - trilha_verde[players[2][0]][1]);
+        coefvm = (trilha_vermelho[players[1][0]][1] >= 290) ? 60 + coef * (trilha_vermelho[players[1][0]][1] - 290) : 60 - coef * (290 - trilha_vermelho[players[1][0]][1]);
+        for (int peao = 0; peao < players[0].size(); peao++) {
+            al_draw_scaled_bitmap(pontoam, 0, 0, 200, 200, trilha_amarelo[players[0][peao]][0] - (coefam * 0.4), trilha_amarelo[players[0][peao]][1] - (coefam * 0.6), coefam, coefam, 0);
         }
-
-        al_draw_bitmap(pontoam, trilha_amarelo[players[0][0]][0], trilha_amarelo[players[0][0]][1], 1);
-        al_draw_bitmap(pontovm, trilha_vermelho[players[1][0]][0], trilha_vermelho[players[1][0]][1], 1);
-        al_draw_bitmap(pontovd, trilha_verde[players[2][0]][0], trilha_verde[players[2][0]][1], 1);
-        al_draw_bitmap(pontoaz, trilha_azul[players[3][0]][0], trilha_azul[players[3][0]][1], 1);
+        for (int peao = 0; peao < players[0].size(); peao++) {
+            al_draw_scaled_bitmap(pontovm, 0, 0, 200, 200, trilha_vermelho[players[1][peao]][0] - (coefvm * 0.4), trilha_vermelho[players[1][peao]][1] - (coefvm * 0.6), coefvm, coefvm, 0);
+        }
+        for (int peao = 0; peao < players[0].size(); peao++) {
+            al_draw_scaled_bitmap(pontovd, 0, 0, 200, 200, trilha_verde[players[2][peao]][0] - (coefvd * 0.4), trilha_verde[players[2][peao]][1] - (coefvd * 0.6), coefvd, coefvd, 0);
+        }
+        for (int peao = 0; peao < players[0].size(); peao++) {
+            al_draw_scaled_bitmap(pontoaz, 0, 0, 200, 200, trilha_azul[players[3][peao]][0] - (coefaz * 0.4), trilha_azul[players[3][peao]][1] - (coefaz * 0.6), coefaz, coefaz, 0);
+        }
+        if (turnos == 0) {
+            al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Amarelo");
+        }
+        else if (turnos == 1) {
+            al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Vermelho");
+        }
+        else if (turnos == 2) {
+            al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Verde");
+        }
+        else {
+            al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Azul");
+        }
+        
 
 
 
@@ -451,17 +502,18 @@ int main() {
             time = 0;
             if (next == true) {
                 next = false;
+                finded = false;
                 numbers1 = 90;
                 numbers2 = 90;
                 numbers3 = 90;
+                objective = 0;
+                objectivedado = 0;
                 dados = {};
                 dadosaux = {};
             }
             dado = turno();
-            dados = { 6,6,5 };
-            dadosaux = { 6,6,5 };
-            //dados.push_back(dado);
-            //dadosaux.push_back(dado);
+            dados.push_back(dado);
+            dadosaux.push_back(dado);
             if (dados.size() == 1) {
                 numbers1 = 60;
             }
@@ -496,77 +548,108 @@ int main() {
             soma = 0;
         }
         if (objective > 0 && numbers1 == 90 && numbers2 == 90 && numbers3 == 90) {
-            if (dadosaux.size() > 1) {
-                if (event.keyboard.keycode == ALLEGRO_KEY_1 && objectivedado == 0) {
-                    objectivedado = dadosaux[0];
-                    dadosaux.erase(dadosaux.begin());
+            for (int pos = 0; pos < 3; pos++) {
+                if (players[turnos][pos] < 56) {
+                    finded = true;
                 }
-                if (event.keyboard.keycode == ALLEGRO_KEY_2 && objectivedado == 0) {
-                    objectivedado = dadosaux[1];
-                    dadosaux.erase(dadosaux.begin()+1);
+            }
+            if (finded) {
+                if (dadosaux.size() > 1) {
+                    al_wait_for_event(event_queue, &event);
+                    if (event.keyboard.keycode == ALLEGRO_KEY_1 && objectivedado == 0) {
+                        objectivedado = dadosaux[0];
+                        dadosaux.erase(dadosaux.begin());
+                    }
+                    else if (event.keyboard.keycode == ALLEGRO_KEY_2 && objectivedado == 0) {
+                        objectivedado = dadosaux[1];
+                        dadosaux.erase(dadosaux.begin() + 1);
+                    }
+                    else if (event.keyboard.keycode == ALLEGRO_KEY_3 && objectivedado == 0 && dados.size() == 3) {
+                        objectivedado = dadosaux[2];
+                        dadosaux.pop_back();
+                    }
+                    else if (objectivedado > 0 && time > 15) {
+                        time = 0;
+                        players[turnos][0] = players[turnos][0] + 1;
+                        objectivedado--;
+                        objective--;
+                    }
                 }
-                if (event.keyboard.keycode == ALLEGRO_KEY_3 && objectivedado == 0 && dados.size() == 3) {
-                    objectivedado = dadosaux[2];
-                    dadosaux.pop_back();
+                else {
+                    if (time > 15) {
+                        time = 0;
+                        players[turnos][0] = players[turnos][0] + 1;
+                        objective--;
+                    }
                 }
-                if (objectivedado > 0 && time > 15) {
-                    time = 0;
-                    players[turnos][0] = players[turnos][0] + 1;
-                    objectivedado--;
-                    objective--;
+                if (objective == 0) {
+                    if (turnos == 3) {
+                        turnos = 0;
+                    }
+                    else {
+                        turnos++;
+                    }
+                    next = true;
                 }
-                
             }
             else {
-                if (time > 15) {
-                    time = 0;
-                    players[turnos][0] = players[turnos][0] + 1;
-                    objective--;
+                if (find(dadosaux.begin(), dadosaux.end(), 6) != dadosaux.end()) {
+                    dadosaux.erase(dadosaux.begin());
+                    players[turnos][0] = 0;
+                    objective = objective - 6;
+                }
+                else {
+                    if (turnos == 3) {
+                        turnos = 0;
+                    }
+                    else {
+                        turnos++;
+                    }
+                    objective = 0;
+                    next = true;
                 }
             }
             
-            if (objective == 0) {
-                if (turnos == 3) {
-                    turnos = 0;
-                }
-                else {
-                    turnos++;
-                }
-                next = true;
-            }
         }
+
         time++;
 
 
 
         // MARCA플O DAS PONTES - PONTE ENTRE VERDE E VERMELHO
 
-        al_draw_bitmap(ponto, 693, 330, 1);
+        al_draw_bitmap(ponto, 693, 330, 2);
 
         // FIM MARCA플O DAS PONTES - PONTE ENTRE VERDE E VERMELHO
 
         // MARCA플O DAS PONTES - PONTE ENTRE AMARELO E VERMELHO
 
-        al_draw_bitmap(ponto, 690, 250, 1);
+        al_draw_bitmap(ponto, 690, 250, 2);
 
         // FIM MARCA플O DAS PONTES - PONTE ENTRE AMARELO E VERMELHO
 
         // MARCA플O DAS PONTES - PONTE ENTRE AMARELO E AZUL
 
-        al_draw_bitmap(ponto, 582, 250, 1);
+        al_draw_bitmap(ponto, 582, 250, 2);
 
         // FIM MARCA플O DAS PONTES - PONTE ENTRE AMARELO E AZUL
 
         // MARCA플O DAS PONTES - PONTE ENTRE AZUL E VERDE
 
-        al_draw_bitmap(ponto, 577, 330, 1);
+        al_draw_bitmap(ponto, 577, 330, 2);
 
         // FIM MARCA플O DAS PONTES - PONTE ENTRE AZUL E VERDE
 
         al_flip_display();
 
     }
-
+    //al_destroy_bitmap(skye);
+    al_destroy_bitmap(dado1);
+    al_destroy_bitmap(dado2);
+    al_destroy_bitmap(dado3);
+    al_destroy_bitmap(dado4);
+    al_destroy_bitmap(dado5);
+    al_destroy_bitmap(dado6);
     al_destroy_bitmap(sprite);
     al_destroy_bitmap(ponto);
     al_destroy_font(font);
