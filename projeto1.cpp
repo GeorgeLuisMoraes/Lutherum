@@ -2,6 +2,8 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -9,26 +11,10 @@
 
 using namespace std;
 
+// Função turno roda o dado e retorna o valor;
 int turno() {
     unsigned seed = time(0);
-
     srand(seed);
-    /*vector<int> dados;
-    int dado;
-    dado = 1 + rand() % 6;
-    dados.push_back(dado);
-    if (dado == 6) {
-        dado = 1 + rand() % 6;
-        dados.push_back(dado);
-        if (dado == 6) {
-            dado = 1 + rand() % 6;
-            dados.push_back(dado);
-            if (dado == 6) {
-                dados = {};
-            }
-        }
-    }
-    return dados;*/
     int dado;
     dado = 1 + rand() % 6;
     return dado;
@@ -36,6 +22,7 @@ int turno() {
 
 
 int main() {
+    // trilha das casas do mapa;
     vector<vector<int>> trilha_amarelo =
     {
         {677, 109},
@@ -98,6 +85,7 @@ int main() {
         {740, 110},
         {910, 210}
     };
+    // trilha das casas do mapa;
     vector<vector<int>> trilha_vermelho =
     {
         {925, 327},
@@ -160,6 +148,7 @@ int main() {
         {770, 550},
         {960, 390}
     };
+    // trilha das casas do mapa;
     vector<vector<int>> trilha_verde =
     {
         {581, 533},
@@ -222,6 +211,7 @@ int main() {
         {510, 550},
         {320, 390}
     };
+    // trilha das casas do mapa;
     vector<vector<int>> trilha_azul =
     {
         {359, 257},
@@ -284,19 +274,31 @@ int main() {
         {540, 110},
         {380, 210}
     };
+
+    //vetor que guarda os valores dos dados do player atual na rodada;
     vector<int> dados;
     int dado;
 
-
+    // iniciar as funções do allegro
     al_init();
     al_init_font_addon();
     al_init_ttf_addon();
     al_init_image_addon();
     al_install_keyboard();
+    al_install_audio(); 
+    al_init_acodec_addon();
+    al_reserve_samples(1); // reserva um espaço para os áudios;
 
+    // Cria o display do jogo
     ALLEGRO_DISPLAY* display = al_create_display(1280, 720);
     al_set_window_position(display, 0, 0);
     al_set_window_title(display, "Lutherum");
+
+    //cria o audio no jogo;
+    ALLEGRO_SAMPLE* song = al_load_sample("Lutherum_padrao.mp3");
+    ALLEGRO_SAMPLE_INSTANCE* songInstance = al_create_sample_instance(song);
+    al_set_sample_instance_playmode(songInstance, ALLEGRO_PLAYMODE_LOOP);
+    al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());
 
     ALLEGRO_FONT* font = al_load_font("font.ttf", 10, 0);
     ALLEGRO_FONT* fontM = al_load_font("font.ttf", 30, 0);
@@ -314,12 +316,13 @@ int main() {
     ALLEGRO_BITMAP* dado4 = al_load_bitmap("dado4.png");
     ALLEGRO_BITMAP* dado5 = al_load_bitmap("dado5.png");
     ALLEGRO_BITMAP* dado6 = al_load_bitmap("dado6.png");
-    //ALLEGRO_BITMAP* skye = al_load_bitmap("sky.png");
 
+    // Cria eventos que o usuário pode interagir
     ALLEGRO_EVENT_QUEUE* event_queue = al_create_event_queue();
     al_register_event_source(event_queue, al_get_display_event_source(display));
     al_register_event_source(event_queue, al_get_timer_event_source(timer));
     al_register_event_source(event_queue, al_get_keyboard_event_source());
+    al_play_sample_instance(songInstance);
     al_start_timer(timer);
 
     float frame = 0.f;
@@ -328,29 +331,30 @@ int main() {
     int current_frame_y = 161;
     int soma = 0;
     int time = 0;
-    int objective = 0;
-    int numbers1 = 90;
-    int numbers2 = 90;
-    int numbers3 = 90;
-    int numbers4 = 1;
-    int sky = 0;
-    bool next = true;
-    bool retafinal = false;
-    bool finded = false;
-    int objectivedado = 0;
-    int coefam;
-    int coefaz;
-    int coefvd;
-    int coefvm;
-    float coef;
-    vector <int> dadosaux;
-    vector<vector<int>> players = {
+    int objective = 0; //quantidade total de casas que o peão vai andar;
+    int numbers1 = 90; //variável de controle da animação do dado 1;
+    int numbers2 = 90; //variável de controle da animação do dado 2;
+    int numbers3 = 90; //variável de controle da animação do dado 3;
+    bool next = true; //variável para saber se o turno de cada jogador acabou;
+    bool retafinal = false; //quando o jogador atual possui ao menos um peão na seta;
+    bool finded = false; //achar um peão do lado de fora do habitat;
+    int objectivedado = 0; //igual à variável objective, mas isola o dado escolhido;
+    int coefam; //coeficiente de diferença de tamanho dos peões amarelos;
+    int coefaz; //coeficiente de diferença de tamanho dos peões azul;
+    int coefvd; //coeficiente de diferença de tamanho dos peões verde;
+    int coefvm; //coeficiente de diferença de tamanho dos peões vermelho;
+    float coef; //coeficiente geral de diferença de tamanho;
+
+    vector <int> dadosaux; //vetor auxiliar para saber quantos dados ainda estão disponíveis para escolha;
+    
+    vector<vector<int>> players = { // guarda a posição de cada peão;
         {56,57,58},
         {56,57,58},
         {56,57,58},
         {56,57,58}
     };
-    int turnos = 0;
+
+    int turnos = 0; // para saber de quem é a vez;
 
     while (true) {
         ALLEGRO_EVENT event;
@@ -359,10 +363,9 @@ int main() {
             break;
         }
 
-        //al_clear_to_color(al_map_rgb(255, 255, 255));
-        //al_draw_text(font, al_map_rgb(0, 0, 0), 5, 5, 0, "1" + 1);
-        //al_draw_scaled_bitmap(skye, sky * 1280, 0, 1280, 720, 0, 0, 1280, 720, 0);
-        al_draw_bitmap(sprite, 0, 0, 0);
+        al_draw_bitmap(sprite, 0, 0, 0); // impressão do tabuleiro;
+
+        //contadores de animação dos dados
         if (numbers1 < 90) {
             numbers1++;
         }
@@ -372,18 +375,12 @@ int main() {
         if (numbers3 < 90) {
             numbers3++;
         }
-        if (sky == 50) {
-            numbers4 = -1;
-        }
-        if (sky == 0) {
-            numbers4 = 1;
-        }
-        sky = sky + numbers4;
         
-        if (dadosaux.size() > 1) {
-            al_draw_text(font, al_map_rgb(255, 255, 255), 100, 80, 0, "Selecione o Dado:");
-            for (int k = 0; k < dadosaux.size(); k++) {
-                if (dadosaux[k] == 1) {
+        if (dadosaux.size() > 1) { //caso ele tenha tirado um 6 e tenha mais de um dado para escolher
+            al_draw_text(font, al_map_rgb(255, 255, 255), 100, 80, 0, "Selecione o Dado:");// imprime um texto
+            
+            for (int k = 0; k < dadosaux.size(); k++) {//imprime cada dado dentro do vetor auxiliar dos dados;
+                if (dadosaux[k] == 1) { // impressão do dado obtido;
                     al_draw_scaled_bitmap(dado1, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 2) {
@@ -403,7 +400,7 @@ int main() {
                 }
             }
         }
-        if (dados.size() > 0) {
+        if (dados.size() > 0) { // Imprime o primeiro dado;
             if (dados[0] == 1) {
                 al_draw_scaled_bitmap(dado1, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
             }
@@ -424,7 +421,7 @@ int main() {
             }
 
         }
-        if (dados.size() > 1) {
+        if (dados.size() > 1) { // Imprime o segundo dado, caso exista;
             if (dados[1] == 1) {
                 al_draw_scaled_bitmap(dado1, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 2);
             }
@@ -444,7 +441,7 @@ int main() {
                 al_draw_scaled_bitmap(dado6, numbers2 * 200, 0, 200, 200, 80, 0, 80, 80, 2);
             }
         }
-        if (dados.size() > 2) {
+        if (dados.size() > 2) { // Imprime o terceiro dado, caso exista;
             if (dados[2] == 1) {
                 al_draw_scaled_bitmap(dado1, numbers3 * 200, 0, 200, 200, 160, 0, 80, 80, 2);
             }
@@ -465,11 +462,13 @@ int main() {
             }
         }
 
-        coef = 0.03;
+        coef = 0.03; // Instanciando os coeficientes;
         coefam = (trilha_amarelo[players[0][0]][1] >= 290) ? 60 + coef * (trilha_amarelo[players[0][0]][1] - 290) : 60 - coef * (290 - trilha_amarelo[players[0][0]][1]);
         coefaz = (trilha_azul[players[3][0]][1] >= 290) ? 60 + coef * (trilha_azul[players[3][0]][1] - 290) : 60 - coef * (290 - trilha_azul[players[3][0]][1]);
         coefvd = (trilha_verde[players[2][0]][1] >= 290) ? 60 + coef * (trilha_verde[players[2][0]][1] - 290) : 60 - coef * (290 - trilha_verde[players[2][0]][1]);
         coefvm = (trilha_vermelho[players[1][0]][1] >= 290) ? 60 + coef * (trilha_vermelho[players[1][0]][1] - 290) : 60 - coef * (290 - trilha_vermelho[players[1][0]][1]);
+        
+        //Cada for imprime os peões em suas localizações;
         for (int peao = 0; peao < players[0].size(); peao++) {
             al_draw_scaled_bitmap(pontoam, 0, 0, 200, 200, trilha_amarelo[players[0][peao]][0] - (coefam * 0.4), trilha_amarelo[players[0][peao]][1] - (coefam * 0.6), coefam, coefam, 0);
         }
@@ -482,6 +481,8 @@ int main() {
         for (int peao = 0; peao < players[0].size(); peao++) {
             al_draw_scaled_bitmap(pontoaz, 0, 0, 200, 200, trilha_azul[players[3][peao]][0] - (coefaz * 0.4), trilha_azul[players[3][peao]][1] - (coefaz * 0.6), coefaz, coefaz, 0);
         }
+
+        // Um if para imprimir de quem é o turno;
         if (turnos == 0) {
             al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Amarelo");
         }
@@ -495,12 +496,10 @@ int main() {
             al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Azul");
         }
         
-
-
-
+        //if pra verificar se o usuário apertar o enter;
         if (event.keyboard.keycode == ALLEGRO_KEY_ENTER && time > 15 && objective == 0) {
             time = 0;
-            if (next == true) {
+            if (next == true) { //se a vez do próximo player é verdadeira, ele reseta todas as variáveis de turno;
                 next = false;
                 finded = false;
                 numbers1 = 90;
@@ -511,11 +510,14 @@ int main() {
                 dados = {};
                 dadosaux = {};
             }
-            dado = turno();
-            dados.push_back(dado);
-            dadosaux.push_back(dado);
+
+            dado = turno(); //função turno sendo chamada, aqui que é gerado o número aleatório;
+            dados.push_back(dado); //insere o dado no vetor dados;
+            dadosaux.push_back(dado); //insere o dado no vetor dados auxiliar;
+
+            //if condicionais para controlar as animações dos dados;
             if (dados.size() == 1) {
-                numbers1 = 60;
+                numbers1 =  60;
             }
             if (dados.size() == 2) {
                 numbers2 = 60;
@@ -523,51 +525,52 @@ int main() {
             if (dados.size() == 3) {
                 numbers3 = 60;
             }
-            if (dado != 6) {
-                for (int j = 0; j < dados.size(); j++) {
+
+            if (dado != 6) { //if que verifica se o dado atual é diferente de 6, se sim, ele encerra a rolagem de dados;
+                for (int j = 0; j < dados.size(); j++) {//for que soma todos os valores no vetor dados;
                     soma = soma + dados[j];
                 }
             }
-            else {
+            else { //caso der 6, ele verifica se o jogador já tem 3 dados dentro do vetor;
                 if (dados.size() == 3) {
+                    // aqui o usuário perde a vez, caso tire três 6 seguidos;
                     if (turnos == 3) {
                         turnos = 0;
                     }
                     else {
                         turnos++;
                     }
-                    dados = {};
-                    dadosaux = {};
+                    next = true;
                 }
             }
             objective = soma;
-            /*if (players[turnos][0] + objective >= 56) {
-                objective = 0;
-                retafinal = true;
-            }*/
             soma = 0;
         }
+        
+        //caso objetivo seja maior que 0 e as animações estejam encerradas;
         if (objective > 0 && numbers1 == 90 && numbers2 == 90 && numbers3 == 90) {
-            for (int pos = 0; pos < 3; pos++) {
+            for (int pos = 0; pos < 3; pos++) { //verifica se tem peões do player atual na trilha;
                 if (players[turnos][pos] < 56) {
                     finded = true;
                 }
             }
+            // caso ele encontre os peões;
             if (finded) {
-                if (dadosaux.size() > 1) {
-                    al_wait_for_event(event_queue, &event);
+                if (dadosaux.size() > 1) { //confere se o vetor dados possui mais de um dado para escolher;
+                    al_wait_for_event(event_queue, &event); //aguarda a escolha;
                     if (event.keyboard.keycode == ALLEGRO_KEY_1 && objectivedado == 0) {
                         objectivedado = dadosaux[0];
-                        dadosaux.erase(dadosaux.begin());
+                        dadosaux.erase(dadosaux.begin()); //erase apaga um valor da lista;
                     }
                     else if (event.keyboard.keycode == ALLEGRO_KEY_2 && objectivedado == 0) {
                         objectivedado = dadosaux[1];
-                        dadosaux.erase(dadosaux.begin() + 1);
+                        dadosaux.erase(dadosaux.begin() + 1); //erase apaga um valor da lista;
                     }
                     else if (event.keyboard.keycode == ALLEGRO_KEY_3 && objectivedado == 0 && dados.size() == 3) {
                         objectivedado = dadosaux[2];
-                        dadosaux.pop_back();
+                        dadosaux.pop_back(); //pop_back apaga o último valor da lista;
                     }
+                    //caso ele escolha um valor, o peão vai andar;
                     else if (objectivedado > 0 && time > 15) {
                         time = 0;
                         players[turnos][0] = players[turnos][0] + 1;
@@ -575,7 +578,7 @@ int main() {
                         objective--;
                     }
                 }
-                else {
+                else { //caso não haja mais de um dado para escolher, o peão anda automaticamente com o dado que sobrou;
                     if (time > 15) {
                         time = 0;
                         players[turnos][0] = players[turnos][0] + 1;
@@ -592,7 +595,7 @@ int main() {
                     next = true;
                 }
             }
-            else {
+            else { //caso não haja peão na trilha;
                 if (find(dadosaux.begin(), dadosaux.end(), 6) != dadosaux.end()) {
                     dadosaux.erase(dadosaux.begin());
                     players[turnos][0] = 0;
@@ -613,8 +616,6 @@ int main() {
         }
 
         time++;
-
-
 
         // MARCAÇÃO DAS PONTES - PONTE ENTRE VERDE E VERMELHO
 
@@ -643,7 +644,7 @@ int main() {
         al_flip_display();
 
     }
-    //al_destroy_bitmap(skye);
+
     al_destroy_bitmap(dado1);
     al_destroy_bitmap(dado2);
     al_destroy_bitmap(dado3);
@@ -651,6 +652,8 @@ int main() {
     al_destroy_bitmap(dado5);
     al_destroy_bitmap(dado6);
     al_destroy_bitmap(sprite);
+    al_destroy_sample(song);
+    al_destroy_sample_instance(songInstance);
     al_destroy_bitmap(ponto);
     al_destroy_font(font);
     al_destroy_display(display);
