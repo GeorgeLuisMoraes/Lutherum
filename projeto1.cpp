@@ -23,256 +23,67 @@ int turno() {
 
 int main() {
     // trilha das casas do mapa;
-    vector<vector<int>> trilha_amarelo =
+    vector<vector<int>> trilha_geral =
     {
-        {677, 109},
-        {678, 138},
-        {679, 167},
-        {680, 196},
-        {681, 225},
-        {729, 257},
-        {775, 257},
-        {821, 257},
-        {867, 257},
-        {913, 257},
-        {959, 257},
-        {966, 289},
-        {973, 327},
-        {925, 327},
-        {877, 327},
-        {829, 327},
-        {781, 327},
-        {733, 327},
-        {685, 365},
-        {686, 402},
-        {688, 443},
-        {689, 486},
-        {691, 533},
-        {692, 582},
-        {635, 582},
-        {579, 582},
-        {581, 533},
-        {582, 486},
-        {584, 443},
-        {585, 402},
-        {587, 365},
-        {538, 327},
-        {490, 327},
-        {442, 327},
-        {394, 327},
-        {346, 327},
-        {298, 327},
-        {306, 289},
-        {313, 257},
-        {359, 257},
-        {405, 257},
-        {451, 257},
-        {497, 257},
-        {543, 257},
-        {591, 225},
-        {592, 196},
-        {593, 167},
-        {594, 138},
-        {595, 109},
-        {596, 80},
-        {636, 80},
-        {635, 109},
-        {635, 138},
-        {635, 167},
-        {635, 196},
-        {635, 225},
-        {750,210},
-        {740, 110},
-        {910, 210}
-    };
-    // trilha das casas do mapa;
-    vector<vector<int>> trilha_vermelho =
-    {
-        {925, 327},
-        {877, 327},
-        {829, 327},
-        {781, 327},
-        {733, 327},
-        {685, 365},
-        {686, 402},
-        {688, 443},
-        {689, 486},
-        {691, 533},
-        {692, 582},
-        {635, 582},
-        {579, 582},
-        {581, 533},
-        {582, 486},
-        {584, 443},
-        {585, 402},
-        {587, 365},
-        {538, 327},
-        {490, 327},
-        {442, 327},
-        {394, 327},
-        {346, 327},
-        {298, 327},
-        {306, 289},
-        {313, 257},
-        {359, 257},
-        {405, 257},
-        {451, 257},
-        {497, 257},
-        {543, 257},
-        {591, 225},
-        {592, 196},
-        {593, 167},
-        {594, 138},
-        {595, 109},
-        {596, 80},
-        {636, 80},
-        {676, 80},
-        {677, 109},
-        {678, 138},
-        {679, 167},
-        {680, 196},
-        {681, 225},
-        {729, 257},
-        {775, 257},
-        {821, 257},
-        {867, 257},
-        {913, 257},
-        {959, 257},
-        {966, 289},
-        {918, 289},
-        {871, 289},
-        {824, 289},
-        {777, 289},
-        {730, 289},
-        {760,390},
-        {770, 550},
-        {960, 390}
-    };
-    // trilha das casas do mapa;
-    vector<vector<int>> trilha_verde =
-    {
-        {581, 533},
-        {582, 486},
-        {584, 443},
-        {585, 402},
-        {587, 365},
-        {538, 327},
-        {490, 327},
-        {442, 327},
-        {394, 327},
-        {346, 327},
-        {298, 327},
-        {306, 289},
-        {313, 257},
-        {359, 257},
-        {405, 257},
-        {451, 257},
-        {497, 257},
-        {543, 257},
-        {591, 225},
-        {592, 196},
-        {593, 167},
-        {594, 138},
-        {595, 109},
-        {596, 80},
-        {636, 80},
-        {676, 80},
-        {677, 109},
-        {678, 138},
-        {679, 167},
-        {680, 196},
-        {681, 225},
-        {729, 257},
-        {775, 257},
-        {821, 257},
-        {867, 257},
-        {913, 257},
-        {959, 257},
-        {966, 289},
-        {973, 327},
-        {925, 327},
-        {877, 327},
-        {829, 327},
-        {781, 327},
-        {733, 327},
-        {685, 365},
-        {686, 402},
-        {688, 443},
-        {689, 486},
-        {691, 533},
-        {692, 582},
-        {635, 582},
-        {635, 533},
-        {635, 486},
-        {635, 443},
-        {635, 402},
-        {635, 365},
-        {520,390},
-        {510, 550},
-        {320, 390}
-    };
-    // trilha das casas do mapa;
-    vector<vector<int>> trilha_azul =
-    {
-        {359, 257},
-        {405, 257},
-        {451, 257},
-        {497, 257},
-        {543, 257},
-        {591, 225},
-        {592, 196},
-        {593, 167},
-        {594, 138},
-        {595, 109},
-        {596, 80},
-        {636, 80},
-        {676, 80},
-        {677, 109},
-        {678, 138},
-        {679, 167},
-        {680, 196},
-        {681, 225},
-        {729, 257},
-        {775, 257},
-        {821, 257},
-        {867, 257},
-        {913, 257},
-        {959, 257},
-        {966, 289},
-        {973, 327},
-        {925, 327},
-        {877, 327},
-        {829, 327},
-        {781, 327},
-        {733, 327},
-        {685, 365},
-        {686, 402},
-        {688, 443},
-        {689, 486},
-        {691, 533},
-        {692, 582},
-        {635, 582},
-        {579, 582},
-        {581, 533},
-        {582, 486},
-        {584, 443},
-        {585, 402},
-        {587, 365},
-        {538, 327},
-        {490, 327},
-        {442, 327},
-        {394, 327},
-        {346, 327},
-        {298, 327},
-        {306, 289},
-        {353, 289},
-        {400, 289},
-        {447, 289},
-        {494, 289},
-        {542, 289},
-        {530,210},
-        {540, 110},
-        {380, 210}
+        {683, 269},
+        {683, 291},
+        {684, 313},
+        {684, 336},
+        {685, 358},
+        {685, 381},
+        {722, 407},
+        {759, 407},
+        {796, 407},
+        {833, 407},
+        {870, 407},
+        {907, 407},
+        {913, 435},
+        {919, 462},
+        {880, 462},
+        {841, 462},
+        {802, 462},
+        {763, 462},
+        {724, 462},
+        {690, 493},
+        {691, 528},
+        {692, 563},
+        {693, 598},
+        {694, 633},
+        {695, 668},
+        {649, 668},
+        {604, 668},
+        {605, 633},
+        {606, 598},
+        {607, 563},
+        {608, 528},
+        {609, 493},
+        {575, 462},
+        {536, 462},
+        {497, 462},
+        {458, 462},
+        {419, 462},
+        {380, 462},
+        {386, 435},
+        {392, 407},
+        {429, 407},
+        {466, 407},
+        {503, 407},
+        {540, 407},
+        {577, 407},
+        {614, 381},
+        {615, 358},
+        {615, 336},
+        {616, 313},
+        {616, 291},
+        {617, 269},
+        {650, 269},
+        {0,0},
+        {0,0},
+        {0,0},
+        {0,0},
+        {0,0},
+        {0,0},
+        {0,0}
     };
 
     //vetor que guarda os valores dos dados do player atual na rodada;
@@ -302,6 +113,7 @@ int main() {
 
     ALLEGRO_FONT* font = al_load_font("font.ttf", 10, 0);
     ALLEGRO_FONT* fontM = al_load_font("font.ttf", 30, 0);
+    ALLEGRO_FONT* fontC = al_load_font("font.ttf", 30, 0);
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0);
 
     ALLEGRO_BITMAP* sprite = al_load_bitmap("tabuleiro.png");
@@ -316,6 +128,14 @@ int main() {
     ALLEGRO_BITMAP* dado4 = al_load_bitmap("dado4.png");
     ALLEGRO_BITMAP* dado5 = al_load_bitmap("dado5.png");
     ALLEGRO_BITMAP* dado6 = al_load_bitmap("dado6.png");
+    ALLEGRO_BITMAP* carta_paladina = al_load_bitmap("carta_paladina.png");
+    ALLEGRO_BITMAP* carta_guerreiro = al_load_bitmap("carta_guerreiro.png");
+    ALLEGRO_BITMAP* carta_cleriga = al_load_bitmap("carta_cleriga.png");
+    ALLEGRO_BITMAP* carta_druida = al_load_bitmap("carta_druida.png");
+    ALLEGRO_BITMAP* carta_boa = al_load_bitmap("carta_boa.png");
+    ALLEGRO_BITMAP* carta_ruim = al_load_bitmap("carta_ruim.png");
+
+
 
     // Cria eventos que o usuário pode interagir
     ALLEGRO_EVENT_QUEUE* event_queue = al_create_event_queue();
@@ -339,22 +159,121 @@ int main() {
     bool retafinal = false; //quando o jogador atual possui ao menos um peão na seta;
     bool finded = false; //achar um peão do lado de fora do habitat;
     int objectivedado = 0; //igual à variável objective, mas isola o dado escolhido;
-    int coefam; //coeficiente de diferença de tamanho dos peões amarelos;
-    int coefaz; //coeficiente de diferença de tamanho dos peões azul;
-    int coefvd; //coeficiente de diferença de tamanho dos peões verde;
-    int coefvm; //coeficiente de diferença de tamanho dos peões vermelho;
+    int coefg; //coeficiente de diferença de tamanho dos peões amarelos;
     float coef; //coeficiente geral de diferença de tamanho;
 
     vector <int> dadosaux; //vetor auxiliar para saber quantos dados ainda estão disponíveis para escolha;
-    
-    vector<vector<int>> players = { // guarda a posição de cada peão;
-        {56,57,58},
-        {56,57,58},
-        {56,57,58},
-        {56,57,58}
+
+    class player {
+        public:
+            vector<int>trilha;
+            vector<vector<int>>seta;
+            vector<vector<int>>habitat;
+            vector<int>peoes;
+
+
+
+            void getValues(int cor) {
+                this->peoes = { 56,57,58 };
+
+                if (cor == 1) { //vermelho
+                    this->seta = {
+                        {650, 291},
+                        {650, 313},
+                        {650, 335},
+                        {650, 357},
+                        {650, 379}
+                    };
+
+                    this->trilha = {1, 52};
+
+                    this->habitat = {
+                        {732, 377},
+                        {760, 360},
+                        {787, 339}
+                    };
+
+                }
+                else if (cor == 2) { //azul
+                    this->seta = {
+                        {875, 435},
+                        {837, 435},
+                        {799, 435},
+                        {761, 435},
+                        {723, 435},
+                    };
+
+                    this->trilha = {14, 12};
+
+                    this->habitat = {
+                        {808, 503},
+                        {778, 529},
+                        {747, 555}
+                    };
+
+                }
+                else if (cor == 3) { //verde
+                    this->seta = {
+                        {649, 633},
+                        {649, 598},
+                        {649, 563},
+                        {649, 528},
+                        {649, 493},
+                    };
+
+                    this->trilha = {27, 25};
+
+                    this->habitat = {
+                        {566, 529},
+                        {559, 579},
+                        {552, 630}
+                    };
+                }
+                else if (cor == 4) { //amarelo
+                    this->seta = {
+                        {424, 435},
+                        {462, 435},
+                        {500, 435},
+                        {538, 435},
+                        {576, 435},
+                    };
+
+                    this->trilha = {40, 38};
+
+                    this->habitat = {
+                        {510, 377},
+                        {575, 377},
+                        {580, 340}
+                    };
+                }
+            }
+            void changeValue(int peao, int newValue) {
+                this->peoes[peao] = newValue;
+            }
     };
 
+    vector<player> players;
+   
+    player vermelho;
+    player azul;
+    player verde;
+    player amarelo;
+
+    vermelho.getValues(1);
+    players.push_back(vermelho);
+    azul.getValues(2);
+    players.push_back(azul);
+    verde.getValues(3);
+    players.push_back(verde);
+    amarelo.getValues(4);
+    players.push_back(amarelo);
+
     int turnos = 0; // para saber de quem é a vez;
+    int casa;
+    bool card = false;
+    int card_y = 720;
+    bool type = false;
+    int cardObjective = 0;
 
     while (true) {
         ALLEGRO_EVENT event;
@@ -364,6 +283,12 @@ int main() {
         }
 
         al_draw_bitmap(sprite, 0, 0, 0); // impressão do tabuleiro;
+
+        al_draw_scaled_bitmap(carta_paladina, 0, 0, 1488, 2078, 200, 20, 148, 207, 0);
+        al_draw_scaled_bitmap(carta_cleriga, 0, 0, 1488, 2078, 950, 20, 148, 207, 0);
+        al_draw_scaled_bitmap(carta_druida, 0, 0, 1488, 2078, 150, 470, 148, 207, 0);
+        al_draw_scaled_bitmap(carta_guerreiro, 0, 0, 1488, 2078, 1000, 470, 148, 207, 0);
+
 
         //contadores de animação dos dados
         if (numbers1 < 90) {
@@ -381,43 +306,43 @@ int main() {
             
             for (int k = 0; k < dadosaux.size(); k++) {//imprime cada dado dentro do vetor auxiliar dos dados;
                 if (dadosaux[k] == 1) { // impressão do dado obtido;
-                    al_draw_scaled_bitmap(dado1, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
+                    al_draw_scaled_bitmap(dado1, 90 * 200, 0, 200, 200, 20, 20 + k * 40, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 2) {
-                    al_draw_scaled_bitmap(dado2, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
+                    al_draw_scaled_bitmap(dado2, 90 * 200, 0, 200, 200, 20, 20 + k * 40, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 3) {
-                    al_draw_scaled_bitmap(dado3, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
+                    al_draw_scaled_bitmap(dado3, 90 * 200, 0, 200, 200, 20, 20 + k * 40, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 4) {
-                    al_draw_scaled_bitmap(dado4, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
+                    al_draw_scaled_bitmap(dado4, 90 * 200, 0, 200, 200, 20, 20 + k * 40, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 5) {
-                    al_draw_scaled_bitmap(dado5, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
+                    al_draw_scaled_bitmap(dado5, 90 * 200, 0, 200, 200, 20, 20 + k * 40, 40, 40, 2);
                 }
                 else if (dadosaux[k] == 6) {
-                    al_draw_scaled_bitmap(dado6, 90 * 200, 0, 200, 200, k * 40, 120, 40, 40, 2);
+                    al_draw_scaled_bitmap(dado6, 90 * 200, 0, 200, 200, 20, 20 + k * 40, 40, 40, 2);
                 }
             }
         }
         if (dados.size() > 0) { // Imprime o primeiro dado;
             if (dados[0] == 1) {
-                al_draw_scaled_bitmap(dado1, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
+                al_draw_scaled_bitmap(dado1, numbers1 * 200, 0, 200, 200, 1160, 240, 120, 120, 0);
             }
             if (dados[0] == 2) {
-                al_draw_scaled_bitmap(dado2, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
+                al_draw_scaled_bitmap(dado2, numbers1 * 200, 0, 200, 200, 1160, 240, 120, 120, 0);
             }
             if (dados[0] == 3) {
-                al_draw_scaled_bitmap(dado3, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
+                al_draw_scaled_bitmap(dado3, numbers1 * 200, 0, 200, 200, 1160, 240, 120, 120, 0);
             }
             if (dados[0] == 4) {
-                al_draw_scaled_bitmap(dado4, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
+                al_draw_scaled_bitmap(dado4, numbers1 * 200, 0, 200, 200, 1160, 240, 120, 120, 0);
             }
             if (dados[0] == 5) {
-                al_draw_scaled_bitmap(dado5, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
+                al_draw_scaled_bitmap(dado5, numbers1 * 200, 0, 200, 200, 1160, 240, 120, 120, 0);
             }
             if (dados[0] == 6) {
-                al_draw_scaled_bitmap(dado6, numbers1 * 200, 0, 200, 200, 0, 0, 80, 80, 2);
+                al_draw_scaled_bitmap(dado6, numbers1 * 200, 0, 200, 200, 1160, 240, 120, 120, 0);
             }
 
         }
@@ -463,41 +388,106 @@ int main() {
         }
 
         coef = 0.03; // Instanciando os coeficientes;
-        coefam = (trilha_amarelo[players[0][0]][1] >= 290) ? 60 + coef * (trilha_amarelo[players[0][0]][1] - 290) : 60 - coef * (290 - trilha_amarelo[players[0][0]][1]);
-        coefaz = (trilha_azul[players[3][0]][1] >= 290) ? 60 + coef * (trilha_azul[players[3][0]][1] - 290) : 60 - coef * (290 - trilha_azul[players[3][0]][1]);
-        coefvd = (trilha_verde[players[2][0]][1] >= 290) ? 60 + coef * (trilha_verde[players[2][0]][1] - 290) : 60 - coef * (290 - trilha_verde[players[2][0]][1]);
-        coefvm = (trilha_vermelho[players[1][0]][1] >= 290) ? 60 + coef * (trilha_vermelho[players[1][0]][1] - 290) : 60 - coef * (290 - trilha_vermelho[players[1][0]][1]);
         
         //Cada for imprime os peões em suas localizações;
-        for (int peao = 0; peao < players[0].size(); peao++) {
-            al_draw_scaled_bitmap(pontoam, 0, 0, 200, 200, trilha_amarelo[players[0][peao]][0] - (coefam * 0.4), trilha_amarelo[players[0][peao]][1] - (coefam * 0.6), coefam, coefam, 0);
+        for (int peao = 0; peao < 3; peao++) {
+            coefg = (trilha_geral[players[0].peoes[peao]][1] >= 439) ? 60 + coef * (trilha_geral[players[0].peoes[peao]][1] - 439) : 60 - coef * (439 - trilha_geral[players[0].peoes[peao]][1]);
+            
+            if (players[0].peoes[peao] > 55) {
+                al_draw_scaled_bitmap(pontovm, 0, 0, 200, 200, players[0].habitat[peao][0] - (coefg * 0.4), players[0].habitat[peao][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
+            else if (players[0].peoes[peao] > 51) {
+                casa = players[0].peoes[peao] - 51;
+                al_draw_scaled_bitmap(pontovm, 0, 0, 200, 200, players[0].seta[casa][0] - (coefg * 0.4), players[0].seta[casa][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
+            else {
+                al_draw_scaled_bitmap(pontovm, 0, 0, 200, 200, trilha_geral[players[0].peoes[peao]][0] - (coefg * 0.4), trilha_geral[players[0].peoes[peao]][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
         }
-        for (int peao = 0; peao < players[0].size(); peao++) {
-            al_draw_scaled_bitmap(pontovm, 0, 0, 200, 200, trilha_vermelho[players[1][peao]][0] - (coefvm * 0.4), trilha_vermelho[players[1][peao]][1] - (coefvm * 0.6), coefvm, coefvm, 0);
+        for (int peao = 0; peao < 3; peao++) {
+            coefg = (trilha_geral[players[1].peoes[peao]][1] >= 439) ? 60 + coef * (trilha_geral[players[1].peoes[peao]][1] - 439) : 60 - coef * (439 - trilha_geral[players[1].peoes[peao]][1]);
+            if (players[1].peoes[peao] > 55) {
+                al_draw_scaled_bitmap(pontoaz, 0, 0, 200, 200, players[1].habitat[peao][0] - (coefg * 0.4), players[1].habitat[peao][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
+            else if (players[1].peoes[peao] > 51) {
+                casa = players[1].peoes[peao] - 51;
+                al_draw_scaled_bitmap(pontoaz, 0, 0, 200, 200, players[1].seta[casa][0] - (coefg * 0.4), players[1].seta[casa][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
+            else {
+                al_draw_scaled_bitmap(pontoaz, 0, 0, 200, 200, trilha_geral[players[1].peoes[peao]][0] - (coefg * 0.4), trilha_geral[players[1].peoes[peao]][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
         }
-        for (int peao = 0; peao < players[0].size(); peao++) {
-            al_draw_scaled_bitmap(pontovd, 0, 0, 200, 200, trilha_verde[players[2][peao]][0] - (coefvd * 0.4), trilha_verde[players[2][peao]][1] - (coefvd * 0.6), coefvd, coefvd, 0);
+        for (int peao = 0; peao < 3; peao++) {
+            coefg = (trilha_geral[players[2].peoes[peao]][1] >= 439) ? 60 + coef * (trilha_geral[players[2].peoes[peao]][1] - 439) : 60 - coef * (439 - trilha_geral[players[2].peoes[peao]][1]);
+            if (players[2].peoes[peao] > 55) {
+                al_draw_scaled_bitmap(pontovd, 0, 0, 200, 200, players[2].habitat[peao][0] - (coefg * 0.4), players[2].habitat[peao][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
+            else if (players[2].peoes[peao] > 51) {
+                casa = players[2].peoes[peao] - 51;
+                al_draw_scaled_bitmap(pontovd, 0, 0, 200, 200, players[2].seta[casa][0] - (coefg * 0.4), players[2].seta[casa][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
+            else {
+                al_draw_scaled_bitmap(pontovd, 0, 0, 200, 200, trilha_geral[players[2].peoes[peao]][0] - (coefg * 0.4), trilha_geral[players[2].peoes[peao]][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
         }
-        for (int peao = 0; peao < players[0].size(); peao++) {
-            al_draw_scaled_bitmap(pontoaz, 0, 0, 200, 200, trilha_azul[players[3][peao]][0] - (coefaz * 0.4), trilha_azul[players[3][peao]][1] - (coefaz * 0.6), coefaz, coefaz, 0);
+        for (int peao = 0; peao < 3; peao++) {
+            coefg = (trilha_geral[players[3].peoes[peao]][1] >= 439) ? 60 + coef * (trilha_geral[players[3].peoes[peao]][1] - 439) : 60 - coef * (439 - trilha_geral[players[3].peoes[peao]][1]);
+            if (players[3].peoes[peao] > 55) {
+                al_draw_scaled_bitmap(pontoam, 0, 0, 200, 200, players[3].habitat[peao][0] - (coefg * 0.4), players[3].habitat[peao][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
+            else if (players[3].peoes[peao] > 51) {
+                casa = players[3].peoes[peao] - 51;
+                al_draw_scaled_bitmap(pontoam, 0, 0, 200, 200, players[3].seta[casa][0] - (coefg * 0.4), players[3].seta[casa][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
+            else {
+                al_draw_scaled_bitmap(pontoam, 0, 0, 200, 200, trilha_geral[players[3].peoes[peao]][0] - (coefg * 0.4), trilha_geral[players[3].peoes[peao]][1] - (coefg * 0.6), coefg, coefg, 0);
+            }
         }
 
         // Um if para imprimir de quem é o turno;
         if (turnos == 0) {
-            al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Amarelo");
+            al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Vermelho");
         }
         else if (turnos == 1) {
-            al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Vermelho");
+            al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Azul");
         }
         else if (turnos == 2) {
             al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Verde");
         }
         else {
-            al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Azul");
+            al_draw_text(fontM, al_map_rgb(255, 255, 255), 1270, 10, ALLEGRO_ALIGN_RIGHT, "Vez do Amarelo");
         }
-        
+
+        if (card == true) {
+            if (type) {
+                al_draw_scaled_bitmap(carta_boa, 0, 0, 1488, 2078, 392, card_y, 496, 692, 0);
+                al_draw_text(fontC, al_map_rgb(0, 0, 0), 640, card_y + 440, ALLEGRO_ALIGN_CENTER, "Avance 3 casas");
+            }
+            else {
+                al_draw_scaled_bitmap(carta_ruim, 0, 0, 1488, 2078, 392, card_y, 496, 692, 0);
+                al_draw_text(fontC, al_map_rgb(0, 0, 0), 640, card_y + 440, ALLEGRO_ALIGN_CENTER, "Volte 3 casas");
+            }
+            if (card_y > 14) {
+                if (card_y - 40 < 14) {
+                    card_y = 14;
+                }
+                else {
+                    card_y -= 40;
+                }
+            }
+        }
+
         //if pra verificar se o usuário apertar o enter;
-        if (event.keyboard.keycode == ALLEGRO_KEY_ENTER && time > 15 && objective == 0) {
+        if (event.keyboard.keycode == ALLEGRO_KEY_ENTER && card == true && cardObjective == 0) {
+            if (type) {
+                cardObjective = 3;
+            }
+            else {
+                cardObjective = -3;
+            }
+            card = false;
+        }
+        else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER && time > 15 && objective == 0 && card == false) {
             time = 0;
             if (next == true) { //se a vez do próximo player é verdadeira, ele reseta todas as variáveis de turno;
                 next = false;
@@ -509,8 +499,10 @@ int main() {
                 objectivedado = 0;
                 dados = {};
                 dadosaux = {};
+                card = false;
+                card_y = 720;
             }
-
+            dados = {};
             dado = turno(); //função turno sendo chamada, aqui que é gerado o número aleatório;
             dados.push_back(dado); //insere o dado no vetor dados;
             dadosaux.push_back(dado); //insere o dado no vetor dados auxiliar;
@@ -527,12 +519,12 @@ int main() {
             }
 
             if (dado != 6) { //if que verifica se o dado atual é diferente de 6, se sim, ele encerra a rolagem de dados;
-                for (int j = 0; j < dados.size(); j++) {//for que soma todos os valores no vetor dados;
-                    soma = soma + dados[j];
+                for (int j = 0; j < dadosaux.size(); j++) {//for que soma todos os valores no vetor dados;
+                    soma = soma + dadosaux[j];
                 }
             }
             else { //caso der 6, ele verifica se o jogador já tem 3 dados dentro do vetor;
-                if (dados.size() == 3) {
+                if (dadosaux.size() == 3) {
                     // aqui o usuário perde a vez, caso tire três 6 seguidos;
                     if (turnos == 3) {
                         turnos = 0;
@@ -546,11 +538,20 @@ int main() {
             objective = soma;
             soma = 0;
         }
-        
+        if (cardObjective != 0 && card_y == 14) {
+            if (cardObjective < 0) {
+                players[turnos].changeValue(0, players[turnos].peoes[0] - 1);
+                cardObjective++;
+            }
+            else {
+                players[turnos].changeValue(0, players[turnos].peoes[0] + 1);
+                cardObjective--;
+            }
+        }
         //caso objetivo seja maior que 0 e as animações estejam encerradas;
         if (objective > 0 && numbers1 == 90 && numbers2 == 90 && numbers3 == 90) {
             for (int pos = 0; pos < 3; pos++) { //verifica se tem peões do player atual na trilha;
-                if (players[turnos][pos] < 56) {
+                if (players[turnos].peoes[pos] < 56) {
                     finded = true;
                 }
             }
@@ -566,14 +567,23 @@ int main() {
                         objectivedado = dadosaux[1];
                         dadosaux.erase(dadosaux.begin() + 1); //erase apaga um valor da lista;
                     }
-                    else if (event.keyboard.keycode == ALLEGRO_KEY_3 && objectivedado == 0 && dados.size() == 3) {
+                    else if (event.keyboard.keycode == ALLEGRO_KEY_3 && objectivedado == 0 && dadosaux.size() == 3) {
                         objectivedado = dadosaux[2];
                         dadosaux.pop_back(); //pop_back apaga o último valor da lista;
                     }
                     //caso ele escolha um valor, o peão vai andar;
                     else if (objectivedado > 0 && time > 15) {
                         time = 0;
-                        players[turnos][0] = players[turnos][0] + 1;
+                        if (players[turnos].peoes[0] == players[turnos].trilha[1]) {
+                            players[turnos].changeValue(0, 52);
+                        }
+                        else if (players[turnos].peoes[0] == 51) {
+                            players[turnos].changeValue(0, 0);
+                        }
+                        else {
+                            players[turnos].changeValue(0, players[turnos].peoes[0] + 1);
+                        }
+                        
                         objectivedado--;
                         objective--;
                     }
@@ -581,10 +591,29 @@ int main() {
                 else { //caso não haja mais de um dado para escolher, o peão anda automaticamente com o dado que sobrou;
                     if (time > 15) {
                         time = 0;
-                        players[turnos][0] = players[turnos][0] + 1;
+                        if (players[turnos].peoes[0] == players[turnos].trilha[1]) {
+                            players[turnos].changeValue(0, 52);
+                        }
+                        else if (players[turnos].peoes[0] == 51) {
+                            players[turnos].changeValue(0, 0);
+                        }
+                        else {
+                            players[turnos].changeValue(0, players[turnos].peoes[0] + 1);
+                        }
                         objective--;
                     }
                 }
+                //6.13.32.45. 7.14.33.46
+                if (players[turnos].peoes[0] == 5 || players[turnos].peoes[0] == 12 || players[turnos].peoes[0] == 31 || players[turnos].peoes[0] == 44) {
+                    card = true;
+                    type = true;
+                }
+                if (players[turnos].peoes[0] == 6 || players[turnos].peoes[0] == 13 || players[turnos].peoes[0] == 32 || players[turnos].peoes[0] == 45) {
+                    card = true;
+                    type = false;
+                }
+
+
                 if (objective == 0) {
                     if (turnos == 3) {
                         turnos = 0;
@@ -598,7 +627,7 @@ int main() {
             else { //caso não haja peão na trilha;
                 if (find(dadosaux.begin(), dadosaux.end(), 6) != dadosaux.end()) {
                     dadosaux.erase(dadosaux.begin());
-                    players[turnos][0] = 0;
+                    players[turnos].changeValue(0, players[turnos].trilha[0]);
                     objective = objective - 6;
                 }
                 else {
@@ -614,46 +643,73 @@ int main() {
             }
             
         }
-
+        
         time++;
 
-        // MARCAÇÃO DAS PONTES - PONTE ENTRE VERDE E VERMELHO
+        //superior
+        
+        /*for (int i = 0; i < 6; i++) {// primeiro
+            al_draw_bitmap(ponto, 650, 269 + i * 22.4, 0);
+        }
+        
 
-        al_draw_bitmap(ponto, 693, 330, 2);
+        //Direita
+        for (int i = 0; i < 6; i++) { // primeiro
+            al_draw_bitmap(ponto, (918 - 38 * i) - 5, 435, 0);
+        }
+        
+        //esquerda
 
-        // FIM MARCAÇÃO DAS PONTES - PONTE ENTRE VERDE E VERMELHO
+        for (int i = 0; i < 6; i++) { //primeiro
+            al_draw_bitmap(ponto, (391 + 38 * i) - 5, 435, 0);
+        }
+        
 
-        // MARCAÇÃO DAS PONTES - PONTE ENTRE AMARELO E VERMELHO
+        //Baixo
+        for (int i = 0; i < 6; i++) { // ultimo
+            al_draw_bitmap(ponto, (654) - 5, 493 + i * 35, 0);
+        }
+        
 
-        al_draw_bitmap(ponto, 690, 250, 2);
 
-        // FIM MARCAÇÃO DAS PONTES - PONTE ENTRE AMARELO E VERMELHO
-
-        // MARCAÇÃO DAS PONTES - PONTE ENTRE AMARELO E AZUL
-
-        al_draw_bitmap(ponto, 582, 250, 2);
-
-        // FIM MARCAÇÃO DAS PONTES - PONTE ENTRE AMARELO E AZUL
-
-        // MARCAÇÃO DAS PONTES - PONTE ENTRE AZUL E VERDE
-
-        al_draw_bitmap(ponto, 577, 330, 2);
-
-        // FIM MARCAÇÃO DAS PONTES - PONTE ENTRE AZUL E VERDE
-
+        for (int i = 0; i < 6; i++) {
+            al_draw_bitmap(ponto, 683 + 0.5 * i, 269 + i * 22.4, 0);
+        }
+        for (int i = 0; i < 6; i++) { // inverte
+            al_draw_bitmap(ponto, (912 - 37 * i) - 5, 407, 0);
+        }
+        for (int i = 0; i < 6; i++) {
+            al_draw_bitmap(ponto, (924 - 39 * i) - 5, 462, 0);
+        }
+        for (int i = 0; i < 6; i++) {
+            al_draw_bitmap(ponto, (695 + i) - 5, 493 + i * 35, 0);
+        }
+        for (int i = 0; i < 6; i++) { //inverte
+            al_draw_bitmap(ponto, (614 - i) - 5, 493 + i * 35, 0);
+        }
+        for (int i = 0; i < 6; i++) { //inverte
+            al_draw_bitmap(ponto, (385 + 39 * i) - 5, 462, 0);
+        }
+        for (int i = 0; i < 6; i++) {
+            al_draw_bitmap(ponto, (397 + 37 * i) - 5, 407, 0);
+        }
+        for (int i = 0; i < 6; i++) { //inverte
+            al_draw_bitmap(ponto, 617 - 0.5 * i, 269 + i * 22.4, 0);
+        }*/
+        
         al_flip_display();
 
     }
-
+    
     al_destroy_bitmap(dado1);
     al_destroy_bitmap(dado2);
     al_destroy_bitmap(dado3);
     al_destroy_bitmap(dado4);
     al_destroy_bitmap(dado5);
     al_destroy_bitmap(dado6);
-    al_destroy_bitmap(sprite);
     al_destroy_sample(song);
     al_destroy_sample_instance(songInstance);
+    al_destroy_bitmap(sprite);
     al_destroy_bitmap(ponto);
     al_destroy_font(font);
     al_destroy_display(display);
